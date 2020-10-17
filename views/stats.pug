@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    header.registerhead.d-flex
+        .container.align-bottom
+            h1.mb-1.text-secondary PLAY portal stats
+    .container
+        section.text-black
+            .container
+                h2 General
+                table.table
+                    tbody
+                    tr
+                        td
+                            p Users
+                        td
+                            = registeredUser
+                    tr
+                        td
+                            p Login
+                        td
+                            = logincnt
+                    tr
+                        td
+                            p Base account ATH
+                        td
+                            = athamount
+                    tr
+                        td
+                            p Base account ETHO
+                        td
+                            = ethoamount

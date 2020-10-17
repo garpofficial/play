@@ -1,0 +1,132 @@
+extends layout
+
+block content
+
+  // Header
+  header.masthead.d-flex
+    .container.text-center.align-bottom
+      h1.mb-1.text-secondary Join the game
+      h3.mb-5.text-secondary
+        if currency =="ETHO"
+          em powered by Ether-1 crypto currency
+        else
+          em powered by Atheios crypto currency
+      a.btn.btn-warning.btn-xl.js-scroll-trigger(href='#about') Find Out More
+    .overlay
+  // About
+  if !user
+    section#about.content-section.bg-light
+      .container.text-center
+        .row
+          .col-lg-10.mx-auto
+            if currency == "ETHO"
+              h2 Join Ether-1 and get rewarded
+              p.lead.mb-5
+                | When You are good at a game You have spent time and energy. We think Your skill should be rewarded.
+                | Just register for Ether-1, get a couple of ETHO and engage in the finest selection of games.
+                | And if You are good at it You can earn a lot of ETHO.
+
+            else
+              h2 Join Atheios and get rewarded
+              p.lead.mb-5
+                | When You are good at a game You have spent time and energy. We think Your skill should be rewarded.
+                | Just register for Atheios, get a couple of Atheios and engage in the finest selection of games.
+                | And if You are good at it You can earn a lot of Atheios.
+
+
+            // Call to Action
+            section.content-section.bg-warning.text-black
+              .container.text-center
+                h2.mb-4 Get ready
+                a.btn.btn-xl.btn-light.mr-4(href='register') Register!
+                a.btn.btn-xl.btn-dark(href='login') Login!
+  // Portfolio
+  section#portfolio.content-section
+    .container
+      .content-section-heading.text-center
+        if currency == "ETHO"
+          h3.text-secondary.mb-0 Games with Ether-1 support
+        else
+          h3.text-secondary.mb-0 Games with Atheios support
+
+        h2.mb-5 Browser games
+      .row.no-gutters
+        .col-lg-6
+          a.portfolio-item(href='https://carlanes.garp.io')
+            span.caption
+              span.caption-content
+                h2 Car lane
+                p.mb-0 Ready for a ride in the rush hour? Try to keep yourself alive and crash free in the tight traffic.
+            img.img-fluid(src='img/carlane.png', alt='')
+        .col-lg-6
+          a.portfolio-item(href='https://colorpath.garp.io')
+            span.caption
+              span.caption-content
+                h2 Color pATH
+                p.mb-0 Tiles are colored and turn into bombs. Accept the challenge and rush to defuse them and collect a bonus. But rush the next bombs might just be around the corner.
+            img.img-fluid(src='img/colorpath.png', alt='')
+        .col-lg-6
+          a.portfolio-item(href='https://cakemuncher.atheios.org')
+            span.caption
+              span.caption-content
+                h2 Cake Muncher
+                p.mb-0 Cakes are such a tasty snack, however life is not that easy...
+            img.img-fluid(src='img/cakemuncher.png', alt='')
+        .col-lg-6
+          a.portfolio-item(href='https://magejump.atheios.org')
+            span.caption
+              span.caption-content
+                h2 Mage Jump
+                p.mb-0 A jumping game in pixel style.
+            img.img-fluid(src='img/magejump.png', alt='')
+        .col-lg-6
+          a.portfolio-item(href='https://bloxxchain.garp.io')
+            span.caption
+              span.caption-content
+                h2 Bloxxchain
+                p.mb-0 Order blocks in the right order to keep things under control.
+            img.img-fluid(src='img/bloxxchain.png', alt='')
+
+  // Services
+  section#services.content-section.bg-warning.text-black.text-center
+    .container
+      .content-section-heading
+        h3.mb-0 Are You a game developer?
+        h2.mb-5 What We Offer
+      .row
+        .col-lg-3.col-md-6.mb-5.mb-lg-0
+          span.service-icon.rounded-circle.mx-auto.mb-3
+            i.icon-screen-smartphone
+          h4
+            strong Simple integration
+          p.mb-0 Works with Construct 3, Javascript and Unity
+        .col-lg-3.col-md-6.mb-5.mb-lg-0
+          span.service-icon.rounded-circle.mx-auto.mb-3
+            i.icon-pencil
+          h4
+            strong Works on mobile and desktop
+          p.mb-0 Simple integration
+        .col-lg-3.col-md-6.mb-5.mb-md-0
+          span.service-icon.rounded-circle.mx-auto.mb-3
+            i.icon-like
+          h4
+            strong Popular
+          p.mb-0 5 games and counting
+        .col-lg-3.col-md-6.mb-5.mb-md-0
+          span.service-icon.rounded-circle.mx-auto.mb-3
+            i.icon-question
+          h4
+            strong Question
+          p.mb-0 We have the answers...
+      // Call to Action
+      section.content-section.bg-warning.text-black
+        .container.text-center
+          h2.mb-4 Integrate Your game with GARP for multi crypto coin support
+          a.btn.btn-xl.btn-light.mr-4(href='https://portal.ether1.org') Switch to the portal!
+
+
+
+
+
+
+

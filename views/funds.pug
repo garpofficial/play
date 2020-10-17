@@ -1,0 +1,306 @@
+extends layout
+
+block content
+  header.registerhead.d-flex
+    .container.align-bottom
+      h1.mb-1.text-secondary Fund management for #{user.username}
+  .container
+    section.bg-warning.text-black
+      .container
+        if coin == "ATH"
+          h2 Your ATH funds
+          p You have two accounts. A transfer account which is the one You can deposit or withdraw funds from everywhere in the Atheios ecosystem.
+        else
+          h2 Your ETHO funds
+          p You have two accounts. A transfer account which is the one You can deposit or withdraw funds from everywhere in the Ether-1 ecosystem.
+        .bd-example.bg-white
+          .d-flex.flex-row.align-items-baseline.bg-white
+            .p-2 Your transfer account
+
+            .form-row
+              .form-group.col-md-3
+                .input-group-prepend
+                  .input-group-text Value
+                  input#amount.form-control(size='50', type='text' name='athvalue', aria-describedby='inputGroupPrepend',required='', value=amount, disabled)
+              .form-group.col-md-9
+                .input-group-prepend
+                  .input-group-text Address
+                  if coin == "ATH"
+                    input#addr.form-control(type='text', name='address', aria-describedby='inputGroupPrepend', required='', value=user.athaddr, readonly)
+                  else
+                    input#addr.form-control(type='text', name='address', aria-describedby='inputGroupPrepend', required='', value=user.ethoaddr, readonly)
+                  button(onclick="myFunction('addr')") Copy
+                  script.
+                    function myFunction(inputvar) {
+                      var copyText = document.getElementById(inputvar);
+                      copyText.select();
+                      document.execCommand("copy");
+                    }
+
+
+
+
+
+        if coin == ATH
+          p ... and a gaming account which will be used in any games in the Atheios ecosystem.
+        else
+          p ... and a gaming account which will be used in any games in the Ether-1 ecosystem.
+
+        .bd-example.bg-white
+          .d-flex.flex-row.align-items-baseline.bg.white
+            .p-2 Your game account
+            .input-group-prepend
+              .input-group-text Value
+              if coin == "ATH"
+                input#hotvalue.form-control(type='text' name='hotvalue', aria-describedby='inputGroupPrepend', required='', value=user.athamount)
+              else
+                input#hotvalue.form-control(type='text' name='hotvalue', aria-describedby='inputGroupPrepend', required='', value=user.ethoamount)
+
+      .p-2
+    p
+    div.shadow-lg.p-3.mb-5.bg-light.rounded
+      h3 Sending coins from Your transfer to Your gaming account
+      .container
+        form(method='POST', action='/funds/movetogaming')
+          .container
+            #form-group
+              .input-group
+                if coin == "ATH"
+                  input#coin.form-control(type='text' name='coin', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value="ATH", hidden)
+                else
+                  input#coin.form-control(type='text' name='coin', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value="ETHO", hidden)
+
+
+                .input-group-prepend
+                  if coin == "ATH"
+                    span#inputGroupPrepend.input-group-text Transfer account, ATH
+                  else
+                    span#inputGroupPrepend.input-group-text Transfer account, ETHO
+
+                input#athamount.form-control(type='text' name='blockchainamount', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value=amount)
+              small#athamountHelp.form-text.text-muted
+                | This is the amount on Your blockchain account
+
+
+              p
+              .input-group
+                .input-group-prepend
+                if coin == "ATH"
+                  span#inputGroupPrepend.input-group-text Game account, ATH
+                  input#hotamount.form-control(type='text', name='hotamount', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value=user.athamount)
+                else
+                  span#inputGroupPrepend.input-group-text Game account, ETHO
+                  input#hotamount.form-control(type='text', name='hotamount', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value=user.ethoamount)
+              small#athamountHelp.form-text.text-muted
+                | This is the amount available for gaming
+
+              p
+              .input-group
+                .input-group-prepend
+                  if coin =="ATH"
+                    span#inputGroupPrepend.input-group-text ATH to transfer
+                  else
+                    span#inputGroupPrepend.input-group-text ETHO to transfer
+                  input#transferamount.form-control(type='text', name='transferamount', placeholder='Amount', aria-describedby='inputGroupPrepend', required='')
+                  button(type="button", onclick="fill('100')") 100%
+                  button(type="button", onclick="fill('50')") 50%
+                  button(type="button", onclick="fill('25')") 25%
+                  script.
+                    function fill(inputvar) {
+                      var txt = document.getElementById("athamount").value;
+                      document.getElementById("transferamount").value = ((inputvar / 100) * txt - 0.2);
+                    }
+
+
+              small#validationATHHelp.form-text.text-muted
+                if coin == "ATH"
+                  | Current transaction fee: 0.2 ATH. Amount needs to be at least reduced with that.
+                else
+                  | Current transaction fee: 0.2 ETHO. Amount needs to be at least reduced with that.
+
+            p
+              .invalid-feedback
+                | Please choose an amount to send to Your blockchain account
+            #form-group
+              input.btn.btn-primary(type='submit',value='Transfer')
+              p
+    div.shadow-lg.p-3.mb-5.bg-light.rounded
+      h3 Sending coins from Your gaming to Your transfer account
+      .container
+        form(method='POST', action='/funds/movetotransfer')
+          .container
+            #form-group
+              .input-group
+                if coin == "ATH"
+                  input#coin.form-control(type='text' name='coin', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value="ATH", hidden)
+                  .input-group-prepend
+                    span#inputGroupPrepend.input-group-text Gaming account ATH
+
+                else
+                  input#coin.form-control(type='text' name='coin', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value="ETHO", hidden)
+                  .input-group-prepend
+                    span#inputGroupPrepend.input-group-text Gaming account ETHO
+
+
+                if coin == "ATH"
+                  input#mtthotamount.form-control(type='text', name='hotamount', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value=user.athamount)
+                else
+                  input#mtthotamount.form-control(type='text', name='hotamount', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value=user.ethoamount)
+
+              p
+              .input-group
+                .input-group-prepend
+                  if coin =="ATH"
+                    span#inputGroupPrepend.input-group-text Transfer account, ATH
+                  else
+                    span#inputGroupPrepend.input-group-text Transfer account, ETHO
+                input#mttathamount.form-control(type='text' name='athamount', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value=amount)
+              p
+              .input-group
+                .input-group-prepend
+                  if coin == "ATH"
+                    span#inputGroupPrepend.input-group-text ATH to transfer
+                  else
+                    span#inputGroupPrepend.input-group-text ETHO to transfer
+                  input#mtttransferamount.form-control(type='text', name='transferamount', placeholder='Amount', aria-describedby='inputGroupPrepend', required='')
+                  button(type="button", onclick="fill2('100')") 100%
+                  button(type="button", onclick="fill2('50')") 50%
+                  button(type="button", onclick="fill2('25')") 25%
+                  script.
+                    function fill2(inputvar) {
+                      var txt = document.getElementById("mtthotamount").value;
+                      document.getElementById("mtttransferamount").value = ((inputvar / 100) * txt - 0.2);
+                    }
+
+              small#validationATHHelp.form-text.text-muted
+                if coin == "ATH"
+                  | Current transaction fee: 0.2 ATH. Amount needs to be at least reduced with that.
+                else
+                  | Current transaction fee: 0.2 ETHO. Amount needs to be at least reduced with that.
+            p
+              .invalid-feedback
+                | Please choose an amount to send to the local account
+            #form-group
+              input.btn.btn-primary(type='submit',value='Transfer back')
+              p
+    div.shadow-lg.p-3.mb-5.bg-light.rounded
+      h3 Withdraw from Your transfer account to external accounts
+      .container
+        form(method='POST', action='/funds/withdraw')
+          .container
+            #form-group
+              .input-group.mb-3
+                if coin == "ATH"
+                  input#coin.form-control(type='text' name='coin', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value="ATH", hidden)
+                else
+                  input#coin.form-control(type='text' name='coin', placeholder='Amount', aria-describedby='inputGroupPrepend', required='', readonly, value="ETHO", hidden)
+
+                .input-group-prepend
+                  span#inputGroupPrepend.input-group-text From
+                  if coin == "ATH"
+                    input#wdathaddress.form-control(size='50', type='text' name='athaddress', aria-label="Transfer address" ,aria-describedby='inputGroupPrepend', required='', value=user.athaddr, disabled)
+                  else
+                    input#wdathaddress.form-control(size='50', type='text' name='athaddress', aria-label="Transfer address" ,aria-describedby='inputGroupPrepend', required='', value=user.ethoaddr, disabled)
+                  .p-2
+                .input-group-prepend
+                  if coin == "ATH"
+                    span#inputGroupPrepend.input-group-text ATH
+                  else
+                    span#inputGroupPrepend.input-group-text ETHO
+                  input#wdamount.form-control(type='text', name='amount', placeholder='Amount',aria-label="Value stored in transfer account", aria-describedby='inputGroupPrepend', required='', disabled, value=amount)
+
+              .input-group
+                .input-group-prepend
+                  span#inputGroupPrepend.input-group-text To
+                  if currency =="ATH"
+                    input#wddepositaddress.form-control(size='50', type='text' name='depositaddr', aria-describedby='inputGroupPrepend', required='', value=user.depositaddr)
+                  else
+                    input#wddepositaddress.form-control(size='50', type='text' name='depositaddr', aria-describedby='inputGroupPrepend', required='', value=user.ethodepositaddr)
+              p
+              .input-group
+                .input-group-prepend
+                  if coin == "ATH"
+                    span#inputGroupPrepend.input-group-text ATH to transfer
+                  else
+                    span#inputGroupPrepend.input-group-text ETHO to transfer
+                  input#wdtransferamount.form-control(type='text', name='transferamount3', placeholder='Amount', aria-describedby='inputGroupPrepend', required='')
+                  button(type="button", onclick="fill3('100')") 100%
+                  button(type="button", onclick="fill3('50')") 50%
+                  button(type="button", onclick="fill3('25')") 25%
+                  script.
+                    function fill3(inputvar) {
+                      var txt = document.getElementById("wdamount").value;
+                      document.getElementById("wdtransferamount").value = ((inputvar / 100) * txt - 0.2);
+                    }
+
+              small#validationATHHelp.form-text.text-muted
+                if coin == "ATH"
+                  | Current transaction fee: 0.2 ATH. Amount needs to be at least reduced with that.
+                else
+                  | Current transaction fee: 0.2 ETHO. Amount needs to be at least reduced with that.
+              p
+            #form-group
+              input.btn.btn-primary(type='submit',value='Withdraw')
+              p
+    div.shadow-lg.p-3.mb-5.bg-light.rounded
+      h3 Statistics
+      .container
+        p The 10 recent events with regards to Your account
+          table.table
+            tr
+              th Date
+              th From
+              th To
+              th Value (after transfer fee)
+              th State
+              th TX
+            tbody
+              each rows in log
+                tr
+                td
+                  = rows.startdate
+                td
+                  if currency == "ATH"
+                    if (rows.fromaddr===user.athaddr)
+                      a(href="https://explorer.atheios.org/address/" + rows.fromaddr, rel="noopener noreferrer", target="_blank") Transfer account
+                    else if (rows.fromaddr === local)
+                      p Game account
+                    else
+                      a(href="https://explorer.atheios.org/address/" + rows.fromaddr, rel="noopener noreferrer", target="_blank") Ext address
+                  else
+                    if (rows.fromaddr === user.ethoaddr)
+                      a(href="https://explorer.ether1.org/addr/" + rows.fromaddr, rel="noopener noreferrer", target="_blank") Transfer account
+                    else if (rows.fromaddr === local)
+                      p Game account
+                    else
+                      a(href="https://explorer.ether1.org/addr/" + rows.fromaddr, rel="noopener noreferrer", target="_blank") Ext address
+
+                td
+                  if currency == "ATH"
+                    if (rows.toaddr === user.athaddr)
+                      a(href="https://explorer.atheios.org/address/" + rows.fromaddr, rel="noopener noreferrer", target="_blank") Transfer account
+                    else if (rows.toaddr === local)
+                      p Game account
+                    else
+                      a(href="https://explorer.atheios.org/address/" + rows.fromaddr, rel="noopener noreferrer", target="_blank") Ext address
+                  else
+                    if (rows.toaddr === user.ethoaddr)
+                      a(href="https://explorer.ether1.org/addr/" + rows.fromaddr, rel="noopener noreferrer", target="_blank") Transfer account
+                    else if (rows.toaddr === local)
+                      p Game account
+                    else
+                      a(href="https://explorer.ether1.org/addr/" + rows.fromaddr, rel="noopener noreferrer", target="_blank") Ext address
+
+                td
+                  = rows.amount
+                td
+                  if (rows.status==1)
+                    p Finished
+                  if (rows.status==2)
+                    p Ongoing
+                td
+                  if currency == "ATH"
+                    a(href="https://explorer.atheios.org/tx/" + rows.tx, rel="noopener noreferrer", target="_blank") TX link
+                  else
+                    a(href="https://explorer.ether1.org/tx/" + rows.tx, rel="noopener noreferrer", target="_blank") TX link
+

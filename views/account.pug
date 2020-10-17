@@ -1,0 +1,96 @@
+extends layout
+
+block content
+  header.registerhead.d-flex
+    .container.align-bottom
+      h1.mb-1.text-secondary Account management for #{user.username}
+  .overlay
+  .container
+    p You have logged in #{user.logincnt} times. You have currently rank #{rank}.
+    h3 Edit account data
+    .container
+      div.shadow-lg.p-3.mb-5.bg-light.rounded
+        h3 User name
+        .container
+          form(method='POST', action='/updateusername')
+            .container
+              #form-group
+                .input-group
+                  .input-group-prepend
+                  span#inputGroupPrepend.input-group-text User name
+                  input#username.form-control(type="text", name="username", aria-describedby="inputGroupPrepend", required="", value=user.username)
+                  input.btn.btn-primary(type='submit',value='Submit')
+
+    .container
+      div.shadow-lg.p-3.mb-5.bg-light.rounded
+        h3 User email
+        .container
+          form(method='POST', action='/updateemail')
+            .container
+              #form-group
+                .input-group
+                  .input-group-prepend
+                  span#inputGroupPrepend.input-group-text Email
+                  input#username.form-control(type="text", name="email", aria-describedby="inputGroupPrepend", required="", value=user.email)
+                  input.btn.btn-primary(type='submit',value='Submit')
+
+    .container
+      div.shadow-lg.p-3.mb-5.bg-light.rounded
+        h3 Blockchain accounts
+        .container
+          form(method='POST', action='/update')
+          .container
+            #form-group
+              .input-group
+                .input-group-prepend
+                span#inputGroupPrepend.input-group-text  ATH gaming account
+                input#athaddr.form-control(name='athaddr', type='text', placeholder="0x...", value=user.athaddr)
+                button.btn.btn-primary(onclick="myFunction('athaddr')") Copy
+
+
+          .container
+            #form-group
+              .input-group
+                .input-group-prepend
+                span#inputGroupPrepend.input-group-text ETHO gaming account
+                input#ethoaddr.form-control(name='ethoaddr', type='text', placeholder="0x...", value=user.ethoaddr)
+                button.btn.btn-primary(onclick="myFunction('ethoaddr')") Copy
+                script.
+                  function myFunction(inputvar) {
+                    var copyText = document.getElementById(inputvar);
+                    copyText.select();
+                    document.execCommand("copy");
+                  }
+
+    .container
+      div.shadow-lg.p-3.mb-5.bg-light.rounded
+
+
+        h3 Edit password
+        .container
+          form(method='POST', action='/updatepassword')
+            #form-group
+              label Password:
+              .container
+                input#password1.form-control(name='password',type='password', autocomplete='off', onkeyup='checkPass1(); return false;')
+                small#depositHelp.form-text.text-muted Make it a secure one, as this allows You to get access to Your funds and game related assets
+            #form-group
+              label Confirm:
+              .container
+                input#password2.form-control(name='password2',type='password', autocomplete='off', onkeyup='checkPass2(); return false;')
+            br
+            input.btn.btn-primary(type='submit',value='Submit')
+        p
+
+    .container
+      div.shadow-lg.p-3.mb-5.bg-light.rounded
+        h3 Delete account
+        .container
+          When You delete Your account Your ATH will be lost and this step is irrevocable. In order to process the deletion You need to enter below the code 007
+          form(method='POST', action='/delete')
+            #form-group
+              label Confirmation code:
+              input.form-control(name='password',type='text')
+            br
+            input.btn.btn-primary(type='submit',value='Delete Account')
+  script(src='/js/passwd.js')
